@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 
@@ -20,7 +21,10 @@ const Navbar = () => {
                 </li>
             </ul>
 
-            <button className="bg-white px-4 py-2">Log Out</button>
+            <div className="flex gap-8 item-center">
+                <UserButton afterSignOutUrl="/" />
+                <button className="bg-white px-4 py-2">Log Out</button>
+            </div>
         </div>
     );
 };
