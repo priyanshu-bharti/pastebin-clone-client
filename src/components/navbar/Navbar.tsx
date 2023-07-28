@@ -1,6 +1,6 @@
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
     return (
@@ -21,9 +21,9 @@ const Navbar = () => {
                 </li>
             </ul>
 
-            <div className="flex gap-8 item-center">
+            <div className="grid place-items-center grid-flow-col gap-4 min-h-[32px] min-w-[32px] relative">
+                <div className="absolute h-full w-full bg-gray-400 rounded-full"></div>
                 <UserButton afterSignOutUrl="/" />
-                <button className="bg-white px-4 py-2">Log Out</button>
             </div>
         </div>
     );
