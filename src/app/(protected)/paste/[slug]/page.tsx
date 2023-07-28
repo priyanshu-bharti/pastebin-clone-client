@@ -4,7 +4,7 @@ import QRCode from "react-qr-code";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { SnippetContext } from "../../layout";
-import { Snippet } from "@/typings/types";
+import Snippet from "@/typings/types";
 
 const ViewPastePage = ({ params }: { params: { slug: string } }) => {
     const { snippets } = useContext(SnippetContext);
@@ -73,6 +73,7 @@ const ViewPastePage = ({ params }: { params: { slug: string } }) => {
                                 type="checkbox"
                                 name="anonymous"
                                 id="anonymous"
+                                checked={snippet?.anonymous}
                                 // onChange={handleVisibilityChange}
                             />
                             Publish as Anonymous

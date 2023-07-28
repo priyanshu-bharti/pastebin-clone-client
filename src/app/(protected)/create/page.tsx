@@ -1,8 +1,10 @@
 "use client";
 
+import Snippet from "@/typings/types";
 import React, { useContext, useState } from "react";
 import { SnippetContext } from "../layout";
 import Link from "next/link";
+import { nanoid } from "nanoid";
 
 const CreatePage = () => {
     const { snippets, setSnippets } = useContext(SnippetContext);
@@ -39,6 +41,18 @@ const CreatePage = () => {
             days = 30;
         }
         setExpiry(addDaysToDate(days));
+    }
+
+    function handleSubmit() {
+        const newSnippet = {
+            id: nanoid(8),
+            title: title,
+            anonymous: visible,
+            data: data,
+            expires: expiry,
+        } as Snippet;
+
+        setSnippets((prevState: Snippet[]) => [...prevState, newSnippet]);
     }
 
     return (
@@ -89,7 +103,7 @@ const CreatePage = () => {
                 <Link
                     type="submit"
                     href="/view"
-                    onClick={() => {}}
+                    onClick={handleSubmit}
                     className="bg-neutral-300 grid place-items-center px-4 py-2"
                 >
                     Publish Snippet

@@ -3,7 +3,7 @@
 import Navbar from "@/components/navbar/Navbar";
 import PageWrapper from "@/components/wrappers/PageWrapper";
 import WebAppWrapper from "@/components/wrappers/WebAppWrapper";
-import { Snippet } from "@/typings/types";
+import Snippet from "@/typings/types";
 import { nanoid } from "nanoid";
 import React, { createContext, useState } from "react";
 

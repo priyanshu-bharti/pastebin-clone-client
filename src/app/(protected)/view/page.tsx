@@ -3,7 +3,7 @@
 import DashboardCard from "@/components/dashboardCard/DashboardCard";
 import React, { useContext } from "react";
 import { SnippetContext } from "../layout";
-import { Snippet } from "@/typings/types";
+import Snippet from "@/typings/types";
 
 const ViewPage = () => {
     const { snippets } = useContext(SnippetContext);
