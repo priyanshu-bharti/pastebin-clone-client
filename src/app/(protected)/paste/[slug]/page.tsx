@@ -11,7 +11,7 @@ const ViewPastePage = ({ params }: { params: { slug: string } }) => {
     const [snippet, setSnippet] = useState<Snippet | null>(null);
 
     useEffect(() => {
-        const data = snippets.find((snip: Snippet) => snip.id === params.slug);
+        const data = snippets.find((snip: Snippet) => snip.pasteId === params.slug);
         setSnippet(data);
         console.log(snippet);
     }, [snippet]);
@@ -62,7 +62,7 @@ const ViewPastePage = ({ params }: { params: { slug: string } }) => {
                                 // onChange={handleExpiryChange}
                                 className="border w-full"
                                 value={diffDate(
-                                    snippet?.expires ?? new Date(),
+                                    snippet?.expiresOn ?? new Date(),
                                     new Date()
                                 )}
                                 readOnly
@@ -73,7 +73,7 @@ const ViewPastePage = ({ params }: { params: { slug: string } }) => {
                                 type="checkbox"
                                 name="anonymous"
                                 id="anonymous"
-                                checked={snippet?.anonymous}
+                                checked={snippet?.isAnonymous}
                                 // onChange={handleVisibilityChange}
                             />
                             Publish as Anonymous

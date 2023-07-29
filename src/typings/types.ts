@@ -1,9 +1,9 @@
 type Snippet = {
-    id: string;
+    pasteId: string;
     title: string;
     data: string;
-    anonymous: boolean;
-    expires: Date;
+    isAnonymous: boolean;
+    expiresOn: Date;
 };
 
 export default Snippet;

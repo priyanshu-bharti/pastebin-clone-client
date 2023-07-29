@@ -12,11 +12,11 @@ export const SnippetContext = createContext<any>(null);
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
     const [snippets, setSnippets] = useState<Snippet[]>([
         {
-            id: nanoid(8),
+            pasteId: nanoid(8),
             title: "Snippet Title",
             data: "Some Snippet Data",
-            anonymous: false,
-            expires: new Date(),
+            isAnonymous: false,
+            expiresOn: new Date(),
         } as Snippet,
     ]);
 

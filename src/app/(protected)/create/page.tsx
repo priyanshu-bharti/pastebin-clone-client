@@ -1,18 +1,21 @@
 "use client";
 
+import { useAuth } from "@clerk/nextjs";
 import Snippet from "@/typings/types";
 import React, { useContext, useState } from "react";
 import { SnippetContext } from "../layout";
 import Link from "next/link";
 import { nanoid } from "nanoid";
+import axios from "axios";
 
 const CreatePage = () => {
+    const [data, setData] = useState("");
+    const [expiry, setExpiry] = useState(new Date());
+    const [title, setTitle] = useState("");
+    const [visible, setVisible] = useState(false);
     const { snippets, setSnippets } = useContext(SnippetContext);
 
-    const [title, setTitle] = useState("");
-    const [data, setData] = useState("");
-    const [visible, setVisible] = useState(false);
-    const [expiry, setExpiry] = useState(new Date());
+    const { getToken } = useAuth();
 
     function addDaysToDate(days = 1) {
         const date = new Date();
@@ -43,14 +46,29 @@ const CreatePage = () => {
         setExpiry(addDaysToDate(days));
     }
 
+    async function savePasteToDb(newSnippet: Snippet) {
+        const response = await axios.post(
+            "http://localhost:5002/v1/api/paste/public/7214146262",
+            newSnippet,
+            {
+                headers: {
+                    Authorization: `Bearer ${await getToken()}`,
+                },
+            }
+        );
+        console.log(response);
+    }
+
     function handleSubmit() {
         const newSnippet = {
-            id: nanoid(8),
+            pasteId: nanoid(8),
             title: title,
-            anonymous: visible,
+            isAnonymous: visible,
             data: data,
-            expires: expiry,
+            expiresOn: expiry,
         } as Snippet;
+
+        savePasteToDb(newSnippet);
 
         setSnippets((prevState: Snippet[]) => [...prevState, newSnippet]);
     }

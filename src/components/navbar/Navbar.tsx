@@ -5,16 +5,15 @@ import React from "react";
 
 const Navbar = () => {
     const { getToken } = useAuth();
-
     function testAuth() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
                     "http://localhost:5002/v1/api/paste/public/7214146262",
                     {
-                        // headers: {
-                        //     Authorization: `Bearer ${await getToken()}`,
-                        // },
+                        /* headers: {
+                            Authorization: `Bearer ${await getToken()}`,
+                        }, */
                     }
                 );
 

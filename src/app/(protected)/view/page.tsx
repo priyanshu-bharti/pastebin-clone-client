@@ -24,8 +24,8 @@ const ViewPage = () => {
                     <DashboardCard
                         title={snippet.title}
                         data={snippet.data}
-                        id={snippet.id}
-                        key={snippet.id}
+                        id={snippet.pasteId}
+                        key={snippet.pasteId}
                     />
                 ))}
             </div>
