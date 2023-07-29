@@ -16,10 +16,15 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
             title: "Snippet Title",
             data: "Some Snippet Data",
             isAnonymous: false,
-            expiresOn: new Date(),
+            expiresOn: Date.now(),
         } as Snippet,
     ]);
 
+    function updateSnippet(updatedSnippet:Snippet) {
+        setSnippets(prevSnippets=>{
+            return [...prevSnippets,updateSnippet] as Snippet[]
+        })
+    }
     return (
         <SnippetContext.Provider value={{ snippets, setSnippets }}>
             <WebAppWrapper>

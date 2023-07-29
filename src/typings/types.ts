@@ -3,7 +3,7 @@ type Snippet = {
     title: string;
     data: string;
     isAnonymous: boolean;
-    expiresOn: Date;
+    expiresOn: number;
 };
 
 export default Snippet;

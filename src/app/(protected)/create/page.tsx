@@ -10,7 +10,7 @@ import axios from "axios";
 
 const CreatePage = () => {
     const [data, setData] = useState("");
-    const [expiry, setExpiry] = useState(new Date());
+    const [expiry, setExpiry] = useState(Date.now());
     const [title, setTitle] = useState("");
     const [visible, setVisible] = useState(false);
     const { snippets, setSnippets } = useContext(SnippetContext);
@@ -21,7 +21,7 @@ const CreatePage = () => {
         const date = new Date();
         days = days > 30 ? 30 : days;
         date.setDate(date.getDate() + days);
-        return date;
+        return date.getTime();
     }
 
     function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -47,8 +47,11 @@ const CreatePage = () => {
     }
 
     async function savePasteToDb(newSnippet: Snippet) {
+        const token = await getToken();
+        console.log("Create Token : 🦊 : " + token);
+
         const response = await axios.post(
-            "http://localhost:5002/v1/api/paste/public/7214146262",
+            "http://localhost:5002/v1/api/paste/12345654321",
             newSnippet,
             {
                 headers: {
@@ -56,7 +59,8 @@ const CreatePage = () => {
                 },
             }
         );
-        console.log(response);
+        const data = await response.data;
+        return await data?.success;
     }
 
     function handleSubmit() {
@@ -68,9 +72,18 @@ const CreatePage = () => {
             expiresOn: expiry,
         } as Snippet;
 
-        savePasteToDb(newSnippet);
-
-        setSnippets((prevState: Snippet[]) => [...prevState, newSnippet]);
+        savePasteToDb(newSnippet).then((data) => {
+            setSnippets((prevState: Snippet[]) => [
+                ...prevState,
+                {
+                    title: data.title,
+                    data: data.data,
+                    expiresOn: data.expiresOn,
+                    isAnonymous: data.isAnonymous,
+                    pasteId: data.pasteId,
+                } as Snippet,
+            ]);
+        });
     }
 
     return (
