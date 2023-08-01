@@ -56,8 +56,7 @@ const Navbar = () => {
                 }`}
             >
                 <div className="flex gap-2 items-center justify-center pr-4">
-                    <div className="grid place-items-center grid-flow-col gap-4 min-h-[32px] min-w-[32px] relative">
-                        <div className="absolute h-full w-full bg-gray-400 rounded-full"></div>
+                    <div className="grid place-items-center grid-flow-col gap-4 h-[32px] w-[32px] relative">
                         <UserButton afterSignOutUrl="/" />
                     </div>
                 </div>
