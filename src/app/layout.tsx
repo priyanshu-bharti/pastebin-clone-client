@@ -18,6 +18,10 @@ export default function RootLayout({
     return (
         <ClerkProvider>
             <html lang="en">
+                <link rel="manifest" href="/manifest.json" />
+                <link rel="apple-touch-icon" href="/icon.png" />
+                <meta name="theme-color" content="#eb6f92" />
+                <meta name="mobile-web-app-capable" content="yes" />
                 <body className={sansFont.className}>{children}</body>
             </html>
         </ClerkProvider>

@@ -1,12 +1,12 @@
 "use client";
-
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import Snippet from "@/typings/types";
 import React, { useContext, useState } from "react";
 import { SnippetContext } from "../layout";
-import Link from "next/link";
 import { nanoid } from "nanoid";
 import axios from "axios";
+import TextArea from "@/components/inputs/TextArea";
+import { useRouter } from "next/navigation";
 
 const CreatePage = () => {
     const [data, setData] = useState("");
@@ -14,8 +14,9 @@ const CreatePage = () => {
     const [title, setTitle] = useState("");
     const [visible, setVisible] = useState(false);
     const { snippets, setSnippets } = useContext(SnippetContext);
-
+    const { user } = useUser();
     const { getToken } = useAuth();
+    const { push } = useRouter();
 
     function addDaysToDate(days = 1) {
         const date = new Date();
@@ -48,19 +49,19 @@ const CreatePage = () => {
 
     async function savePasteToDb(newSnippet: Snippet) {
         const token = await getToken();
-        console.log("Create Token : 🦊 : " + token);
-
-        const response = await axios.post(
-            "http://localhost:5002/v1/api/paste/12345654321",
-            newSnippet,
-            {
-                headers: {
-                    Authorization: `Bearer ${await getToken()}`,
-                },
-            }
-        );
-        const data = await response.data;
-        return await data?.success;
+        if (user) {
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/v1/api/paste/${user.id}`,
+                newSnippet,
+                {
+                    headers: {
+                        Authorization: `Bearer ${await getToken()}`,
+                    },
+                }
+            );
+            const data = await response.data;
+            return await data?.success;
+        }
     }
 
     function handleSubmit() {
@@ -84,61 +85,68 @@ const CreatePage = () => {
                 } as Snippet,
             ]);
         });
+        alert("Paste created successfully");
+        push("/view");
     }
 
     return (
         <div className="md:grid md:grid-cols-3 flex flex-col-reverse gap-4">
-            <textarea
-                name="snippet"
-                id="snippet"
-                cols={30}
-                rows={10}
-                onChange={handleDataChange}
-                placeholder="Enter Snippet Here..."
-                className="border flex-1 col-span-2"
-            ></textarea>
+            <TextArea handleDataChange={handleDataChange} data={data} />
             <div className="flex flex-col gap-4">
-                <div className="">Publish Snippet</div>
+                <h2 className="text-lg font-bold">Publish Snippet</h2>
                 <div className="">
-                    <input
-                        type="text"
-                        name="title"
-                        id="title"
-                        placeholder="Enter Title"
-                        onChange={handleTitleChange}
-                        className="border w-full"
-                    />
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">
+                                Enter Snippet Title:
+                            </span>
+                        </label>
+                        <input
+                            type="text"
+                            name="title"
+                            id="title"
+                            placeholder="Enter Title"
+                            onChange={handleTitleChange}
+                            required
+                            className="input input-bordered w-full"
+                        />
+                    </div>
                 </div>
                 <div className="">
-                    <input
-                        type="number"
-                        name="expires"
-                        id="expires"
-                        placeholder="Expires after (days)"
-                        min={0}
-                        max={30}
-                        onChange={handleExpiryChange}
-                        className="border w-full"
-                    />
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">
+                                Expires after (days):
+                            </span>
+                        </label>
+                        <input
+                            type="number"
+                            name="expires"
+                            id="expires"
+                            placeholder="Expires after (days)"
+                            min={0}
+                            max={30}
+                            onChange={handleExpiryChange}
+                            className="input input-bordered w-full"
+                            required
+                        />
+                    </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-4 py-4 items-center">
                     <input
                         type="checkbox"
                         name="anonymous"
                         id="anonymous"
                         onChange={handleVisibilityChange}
+                        className="checkbox checkbox-primary checkbox-sm"
                     />
-                    Publish as Anonymous
+                    <label htmlFor="anonymous" className="cursor-pointer">
+                        Publish as Anonymous
+                    </label>
                 </div>
-
-                <Link
-                    type="submit"
-                    href="/view"
-                    onClick={handleSubmit}
-                    className="bg-neutral-300 grid place-items-center px-4 py-2"
-                >
+                <button onClick={handleSubmit} className="btn btn-primary">
                     Publish Snippet
-                </Link>
+                </button>
             </div>
         </div>
     );

@@ -2,25 +2,28 @@ import Link from "next/link";
 import React from "react";
 
 const DashboardCard = ({
-    id = "test",
-    title = "Test Card Title",
-    data = "Some Random Card Data that goes like this: lorem ipsum sit amet dolor consectetur. I don't even know what I am trying to do with this project.",
+    id,
+    title,
+    data,
 }: {
     id?: string;
     title?: string;
     data?: string;
 }) => {
     return (
-        <div className="p-4 max-h-60 bg-neutral-100 flex flex-col gap-4">
-            <h4 className="">{title}</h4>
-            <p className="line-clamp-3">{data}</p>
-            <Link
-                href={`/paste/${id}`}
-                className="bg-neutral-300 px-4 py-2 self-end"
-            >
-                View/Edit
-            </Link>
-        </div>
+        <>
+            <div className="card max-h-60 bg-neutral text-base-content">
+                <div className="card-body">
+                    <h2 className="card-title line-clamp-1 ">{title}</h2>
+                    <pre className="line-clamp-6 text-xs">{data}</pre>
+                    <div className="card-actions justify-end pt-4">
+                        <Link href={`/paste/${id}`} className="btn btn-primary">
+                            View/Edit
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 };
 

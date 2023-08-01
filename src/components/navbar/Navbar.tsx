@@ -1,57 +1,65 @@
-import { UserButton, useAuth } from "@clerk/nextjs";
-import axios from "axios";
+import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
+import {
+    RiAddLine,
+    RiDashboardLine,
+    RiInformationLine,
+    RiMenu4Line,
+} from "react-icons/ri";
 
 const Navbar = () => {
-    const { getToken } = useAuth();
-    function testAuth() {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    "http://localhost:5002/v1/api/paste/public/7214146262",
-                    {
-                        /* headers: {
-                            Authorization: `Bearer ${await getToken()}`,
-                        }, */
-                    }
-                );
-
-                console.log(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        console.log("Connecting to the server...");
-        fetchData();
-    }
+    const pathname = usePathname();
 
     return (
-        <div className="p-4 bg-neutral-200 flex justify-between items-center">
-            {/* Branding */}
-            <div className="">ShareSnip</div>
+        <div className="navbar bg-base-100 border-b border-b-base-content border-opacity-20">
+            <div className="navbar-start">
+                <a
+                    href="#"
+                    className="pl-4 normal-case text-xl font-bold transition hover:scale-105 hover:text-primary"
+                >
+                    ShareSnip
+                </a>
+            </div>
 
-            {/* Nav Links */}
-            <ul className="flex gap-8 items-center">
-                <li className="">
-                    <Link href="/create">Create</Link>
-                </li>
-                <li className="">
-                    <Link href="/view">View</Link>
-                </li>
-                <li className="">
-                    <Link href="/view">About</Link>
-                </li>
-                <li className="bg-slate-500 text-white px-4">
-                    <button onClick={testAuth}>Special Button</button>
-                </li>
-            </ul>
+            <div
+                className={`navbar-center hidden ${
+                    !pathname.includes("/public/") && "lg:flex"
+                }`}
+            >
+                <ul className="menu menu-horizontal px-1 gap-4">
+                    <li className="">
+                        <Link href="/create" className="hover:text-secondary">
+                            <RiAddLine />
+                            Create
+                        </Link>
+                    </li>
+                    <li className="">
+                        <Link href="/view" className="hover:text-secondary">
+                            <RiDashboardLine />
+                            View
+                        </Link>
+                    </li>
+                    <li className="">
+                        <Link href="/view" className="hover:text-secondary">
+                            <RiInformationLine />
+                            About
+                        </Link>
+                    </li>
+                </ul>
+            </div>
 
-            <div className="flex gap-4 items-center justify-center">
-                <div className="grid place-items-center grid-flow-col gap-4 min-h-[32px] min-w-[32px] relative">
-                    <div className="absolute h-full w-full bg-gray-400 rounded-full"></div>
-                    <UserButton afterSignOutUrl="/" />
+            <div
+                className={`navbar-end ${
+                    pathname.includes("/public/") && "hidden"
+                }`}
+            >
+                <div className="flex gap-2 items-center justify-center pr-4">
+                    <div className="grid place-items-center grid-flow-col gap-4 min-h-[32px] min-w-[32px] relative">
+                        <div className="absolute h-full w-full bg-gray-400 rounded-full"></div>
+                        <UserButton afterSignOutUrl="/" />
+                    </div>
                 </div>
             </div>
         </div>
