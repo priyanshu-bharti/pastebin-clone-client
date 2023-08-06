@@ -14,7 +14,7 @@ export default function Home() {
 
     return (
         <main className="bg-base-100">
-            <header className="container mx-auto px-4 grid md:grid-cols-2">
+            <header className="container max-w-6xl mx-auto px-4 grid md:grid-cols-2">
                 <nav className="flex items-center justify-between md:col-span-2 py-4">
                     {/* Nav Start */}
                     <div className="flex gap-1 items-center">
@@ -97,9 +97,9 @@ export default function Home() {
                     <div className="mockup-phone absolute right-1/2 translate-x-1/2 md:right-0 md:translate-x-0 top-16">
                         <div className="camera"></div>
                         <div className="display">
-                            <div className="artboard artboard-demo phone-1 bg-primary">
+                            <div className="artboard artboard-demo phone-1 bg-[#191919] items-start">
                                 <img
-                                    src="https://e1.pxfuel.com/desktop-wallpaper/272/670/desktop-wallpaper-panda-cute-android-real-panda-thumbnail.jpg"
+                                    src="screen.png"
                                     alt="Screenshot"
                                     className="grayscale"
                                 />
@@ -108,9 +108,8 @@ export default function Home() {
                     </div>
                 </section>
             </header>
-
             <section className="bg-white text-neutral">
-                <div className="container mx-auto py-16 p-4 grid gap-4">
+                <div className="container max-w-6xl mx-auto py-16 p-4 grid gap-4">
                     <div className="text-center space-y-2 pb-12">
                         <p className="text-sm uppercase tracking-widest font-bold text-primary">
                             Features
@@ -174,9 +173,8 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-
             <section className="text-white">
-                <div className="container mx-auto py-16 p-4 grid gap-8 place-items-center">
+                <div className="container max-w-6xl mx-auto py-16 p-4 grid gap-8 place-items-center">
                     <div className="text-center space-y-2">
                         <p className="text-sm uppercase tracking-widest font-bold text-primary">
                             Open Source
@@ -199,9 +197,8 @@ export default function Home() {
                     </button>
                 </div>
             </section>
-
             <section className="bg-secondary text-neutral">
-                <div className="container mx-auto py-16 p-4 grid gap-8 place-items-center">
+                <div className="container max-w-6xl mx-auto py-16 p-4 grid gap-8 place-items-center">
                     <div className="text-center space-y-2">
                         <p className="text-sm uppercase tracking-widest font-bold text-secondary-content">
                             Join Us
@@ -220,9 +217,12 @@ export default function Home() {
                         </p>
                     </div>
 
-                    <button className="btn btn-neutral btn-lg text-secondary">
+                    <Link
+                        href="/redirect"
+                        className="btn btn-neutral btn-lg text-secondary"
+                    >
                         Try ShareSnip, its free!
-                    </button>
+                    </Link>
                 </div>
                 <footer className="text-xs p-4 grid place-items-center border-t border-t-neutral">
                     Copyright © 2023. Developed with Next.js, MongoDB, and
